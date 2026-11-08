@@ -12,7 +12,6 @@ import { updateFighterState } from './combat/stateMachine';
 import { tryActivateUltimate, updateUltimateCinematic } from './combat/ultimate';
 import { tryInitiateThrow } from './combat/throws';
 import { InputBuffer } from './input/InputBuffer';
-import { getFighter } from './fighters';
 
 export const ROUND_TIME_SECONDS = 60;
 export const WINNING_ROUNDS = 2; // Best-of-3
@@ -20,8 +19,7 @@ export const WINNING_ROUNDS = 2; // Best-of-3
 export function createFighterRuntime(
   id: 'p1' | 'p2',
   def: FighterDefinition,
-  startX: number,
-  bufferSize = 6
+  startX: number
 ): FighterRuntime {
   return {
     id,
@@ -83,8 +81,8 @@ export function createInitialGameState(
     timerFrames: roundSeconds * 60,
     roundTimerTotalSeconds: roundSeconds,
     stageId,
-    p1: createFighterRuntime('p1', p1Def, 460, diffConfig.inputBufferFrames),
-    p2: createFighterRuntime('p2', p2Def, 740, diffConfig.inputBufferFrames),
+    p1: createFighterRuntime('p1', p1Def, 460),
+    p2: createFighterRuntime('p2', p2Def, 740),
     roundOver: false,
     matchOver: false,
     winner: null,

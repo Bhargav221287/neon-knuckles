@@ -15,46 +15,51 @@ describe('Balance Sanity & Match Termination Test', () => {
 
     const engine = new FightingEngine();
 
-    // Test a comprehensive round-robin tournament across all 8 fighters (both P1 and P2 roles)
-    for (let i = 0; i < ALL_FIGHTERS.length; i++) {
-      for (let j = 0; j < ALL_FIGHTERS.length; j++) {
-        if (i === j) continue;
-        const fighter1 = ALL_FIGHTERS[i];
-        const fighter2 = ALL_FIGHTERS[j];
+    // Test multiple tournament rounds across all 8 fighters (both P1 and P2 roles)
+    // for statistical significance and consistent balance verification
+    const tournamentRounds = 3;
 
-        const state = createInitialGameState(fighter1, fighter2, 'normal', 'arcade');
-        const ai1 = new AIBrain();
-        const ai2 = new AIBrain();
+    for (let round = 0; round < tournamentRounds; round++) {
+      for (let i = 0; i < ALL_FIGHTERS.length; i++) {
+        for (let j = 0; j < ALL_FIGHTERS.length; j++) {
+          if (i === j) continue;
+          const fighter1 = ALL_FIGHTERS[i];
+          const fighter2 = ALL_FIGHTERS[j];
 
-        let framesSimulated = 0;
-        const maxFrames = 12000; // ample time for 3 rounds of fighting
+          const state = createInitialGameState(fighter1, fighter2, 'normal', 'arcade');
+          const ai1 = new AIBrain();
+          const ai2 = new AIBrain();
 
-        while (!state.matchOver && framesSimulated < maxFrames) {
-          framesSimulated++;
+          let framesSimulated = 0;
+          const maxFrames = 12000; // ample time for 3 rounds of fighting
 
-          const p1Input = ai1.update(state.p1, state.p2, state, 'normal');
-          const p2Input = ai2.update(state.p2, state.p1, state, 'normal');
+          while (!state.matchOver && framesSimulated < maxFrames) {
+            framesSimulated++;
 
-          engine.update(state, p1Input, p2Input, true);
+            const p1Input = ai1.update(state.p1, state.p2, state, 'normal');
+            const p2Input = ai2.update(state.p2, state.p1, state, 'normal');
 
-          if (state.roundOver && !state.matchOver) {
-            engine.startNextRound(state);
-            ai1.reset();
-            ai2.reset();
+            engine.update(state, p1Input, p2Input, true);
+
+            if (state.roundOver && !state.matchOver) {
+              engine.startNextRound(state);
+              ai1.reset();
+              ai2.reset();
+            }
           }
-        }
 
-        // 1. Verify every match terminated cleanly
-        expect(state.matchOver, `Match between ${fighter1.name} and ${fighter2.name} did not terminate within time`).toBe(true);
-        expect(state.winner).not.toBeNull();
+          // 1. Verify every match terminated cleanly
+          expect(state.matchOver, `Match between ${fighter1.name} and ${fighter2.name} did not terminate within time`).toBe(true);
+          expect(state.winner).not.toBeNull();
 
-        fighterTotalMatches[fighter1.id]++;
-        fighterTotalMatches[fighter2.id]++;
+          fighterTotalMatches[fighter1.id]++;
+          fighterTotalMatches[fighter2.id]++;
 
-        if (state.winner === 'p1') {
-          fighterWins[fighter1.id]++;
-        } else if (state.winner === 'p2') {
-          fighterWins[fighter2.id]++;
+          if (state.winner === 'p1') {
+            fighterWins[fighter1.id]++;
+          } else if (state.winner === 'p2') {
+            fighterWins[fighter2.id]++;
+          }
         }
       }
     }

@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { ALL_FIGHTERS } from '../game/fighters';
-import { DIFFICULTY_CONFIGS, DifficultyLevel } from '../game/difficulty';
-import { calculateUltimateDamage, tryActivateUltimate, updateUltimateCinematic } from '../game/combat/ultimate';
-import { createInitialGameState, FightingEngine } from '../game/engine';
+import { DifficultyLevel } from '../game/difficulty';
+import { tryActivateUltimate, updateUltimateCinematic } from '../game/combat/ultimate';
+import { createInitialGameState } from '../game/engine';
 
 const DIFFICULTIES: DifficultyLevel[] = ['easy', 'normal', 'hard', 'nightmare'];
 

@@ -1,4 +1,4 @@
-import { FighterRuntime, GameState, Particle, FlyText } from '../types';
+import { FighterRuntime, GameState } from '../types';
 import { aabbIntersect, getActiveHitbox, getHurtboxes } from '../physics/collision';
 import { DIFFICULTY_CONFIGS } from '../difficulty';
 

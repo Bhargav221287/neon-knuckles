@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { aabbIntersect, Box, getHurtboxes } from '../game/physics/collision';
+import { aabbIntersect, getHurtboxes } from '../game/physics/collision';
+import { Box } from '../game/types';
 import { canBlockAttack, getJuggleDamageScale, resolveHits } from '../game/combat/hitResolution';
 import { createInitialGameState } from '../game/engine';
 import { kazeDefinition } from '../game/fighters/kaze';
