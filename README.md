@@ -1,6 +1,9 @@
 # ⚡ NEON KNUCKLES ⚡
 > *A high-octane, Tekken-inspired 1v1 browser fighting game built from scratch with pure TypeScript, HTML5 Canvas, Next.js 16, and Web Audio API.*
 
+🎮 **[Play Live in Browser: https://neon-knuckles.vercel.app](https://neon-knuckles.vercel.app)** 🎮
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel%20Production-00f0ff?style=for-the-badge&logo=vercel)](https://neon-knuckles.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.5-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/Tailwind-CSS%204-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
