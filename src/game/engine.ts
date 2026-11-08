@@ -323,12 +323,23 @@ export class FightingEngine {
     } else if (state.p2.health > state.p1.health) {
       roundWinner = 'p2';
       state.p2.roundsWon++;
+    } else {
+      // Draw: both gain a round point in standard competitive rules
+      roundWinner = 'draw';
+      state.p1.roundsWon++;
+      state.p2.roundsWon++;
     }
     state.winner = roundWinner;
 
     if (state.p1.roundsWon >= WINNING_ROUNDS || state.p2.roundsWon >= WINNING_ROUNDS) {
       state.matchOver = true;
-      state.winner = state.p1.roundsWon >= WINNING_ROUNDS ? 'p1' : 'p2';
+      if (state.p1.roundsWon > state.p2.roundsWon) {
+        state.winner = 'p1';
+      } else if (state.p2.roundsWon > state.p1.roundsWon) {
+        state.winner = 'p2';
+      } else {
+        state.winner = 'draw';
+      }
     }
   }
 

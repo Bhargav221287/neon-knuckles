@@ -182,18 +182,17 @@ export class AIBrain {
     }
 
     // 7. Neutral Spacing & Offense
-    if (dist > 180) {
-      // Approach
+    if (dist > 95) {
+      // Approach to strike range
       inputs[forwardKey] = true;
-      // Occasional dash/jump on Easy/Normal
-      if (Math.random() < 0.05 && config.aggression > 0.5) {
-        inputs.up = true;
+      if (Math.random() < 0.08 && config.aggression > 0.5) {
+        inputs.up = true; // occasional jumping approach
       }
-      this.inputHoldFrames = 6;
-    } else if (dist < 65) {
-      // Close range: throw, mixup, or back off
+      this.inputHoldFrames = 5;
+    } else if (dist < 60) {
+      // Close range: throw, mixup, or fast poke
       const roll = Math.random();
-      if (roll < 0.25 * config.aggression) {
+      if (roll < 0.28 * config.aggression) {
         // Throw attempt (LP+LK)
         inputs.lp = true;
         inputs.lk = true;
@@ -206,34 +205,29 @@ export class AIBrain {
           inputs.down = true;
           inputs.lk = true;
         }
-      } else if (roll < 0.8) {
-        // Fast mid poke
-        const midMove = this.selectFastestMidMove(ai.def.moves);
-        if (midMove) {
-          this.applyMoveInput(midMove, inputs, forwardKey, backKey);
+      } else if (roll < 0.85) {
+        // Fast poke
+        const fastPoke = this.selectFastestMove(ai.def.moves);
+        if (fastPoke) {
+          this.applyMoveInput(fastPoke, inputs, forwardKey, backKey);
         }
       } else {
-        // Backdash / spacing
+        // Spacing backstep
         inputs[backKey] = true;
       }
-      this.inputHoldFrames = 5;
+      this.inputHoldFrames = 4;
     } else {
-      // Mid range (footsies)
+      // Sweet spot striking range (60 - 95 px)
       const roll = Math.random();
-      if (roll < config.aggression * 0.4) {
+      if (roll < 0.7 * config.aggression) {
         const move = this.selectRandomViableMove(ai.def.moves);
         if (move) {
           this.applyMoveInput(move, inputs, forwardKey, backKey);
         }
-      } else if (roll < 0.6) {
-        // Walk forward
-        inputs[forwardKey] = true;
       } else if (roll < 0.85) {
-        // Walk back
-        inputs[backKey] = true;
+        inputs[forwardKey] = true;
       } else {
-        // Sidestep attempt
-        inputs.up = true;
+        inputs[backKey] = true;
       }
       this.inputHoldFrames = 4;
     }
